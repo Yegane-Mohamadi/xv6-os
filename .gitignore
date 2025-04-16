@@ -1,0 +1,10 @@
+*.o
+*.d
+*.sym
+*.asm
+*.out
+fs.img
+initcode
+*.img
+_user
+_* 
