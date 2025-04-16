@@ -3,6 +3,7 @@
 #include "kernel/types.h"
 #include "user/user.h"
 #include "kernel/fcntl.h"
+#include "user.h"
 
 // Parsed command representation
 #define EXEC  1
@@ -53,6 +54,22 @@ int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
 void runcmd(struct cmd*) __attribute__((noreturn));
+//تابعی که خودمون تعریف کردیم
+char* strstr(const char *haystack, const char *needle) {
+  if (!*needle) return (char*)haystack;
+
+  for (; *haystack; haystack++) {
+    const char *h = haystack;
+    const char *n = needle;
+    while (*h && *n && *h == *n) {
+      h++;
+      n++;
+    }
+    if (!*n)
+      return (char*)haystack;
+  }
+  return 0;
+}
 
 // Execute cmd.  Never returns.
 void
@@ -76,6 +93,32 @@ runcmd(struct cmd *cmd)
     ecmd = (struct execcmd*)cmd;
     if(ecmd->argv[0] == 0)
       exit(1);
+
+    if(strcmp(ecmd->argv[0], "!") == 0) {
+      int total_len = 0;
+
+      for(int i = 1; ecmd->argv[i]; i++) {
+        total_len += strlen(ecmd->argv[i]);
+      }
+
+      if(total_len > 512) {
+        printf("Message too long\n");
+        exit(0);
+      }
+
+      for(int i = 1; ecmd->argv[i]; i++) {
+        if(strstr(ecmd->argv[i], "os"))
+          printf("\033[1;34m%s\033[0m", ecmd->argv[i]);
+        else
+          printf("%s", ecmd->argv[i]);
+
+        if(ecmd->argv[i+1])
+          printf(" ");
+      }
+      printf("\n");
+      exit(0);
+    }
+
     exec(ecmd->argv[0], ecmd->argv);
     fprintf(2, "exec %s failed\n", ecmd->argv[0]);
     break;
@@ -134,7 +177,7 @@ runcmd(struct cmd *cmd)
 int
 getcmd(char *buf, int nbuf)
 {
-  write(2, "$ ", 2);
+  write(2, "$yeganeh-navid ", 15);
   memset(buf, 0, nbuf);
   gets(buf, nbuf);
   if(buf[0] == 0) // EOF
@@ -491,4 +534,4 @@ nulterminate(struct cmd *cmd)
     break;
   }
   return cmd;
-}
+} 
