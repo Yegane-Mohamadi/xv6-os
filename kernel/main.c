@@ -3,6 +3,8 @@
 #include "memlayout.h"
 #include "riscv.h"
 #include "defs.h"
+#include "custom-logger.h" 
+#include "custom-logger.c"
 
 volatile static int started = 0;
 
@@ -10,6 +12,11 @@ volatile static int started = 0;
 void
 main()
 {
+  
+log_message(INFO, "Welcome to AUT MCS Principles of Operating Systems Course. This message is from a custom logger implemented by 40213025 and 40112026");
+log_message(WARN, "This is a test warning message for the custom logger");
+log_message(ERROR, "This is a test error message for the custom logger");
+
   if(cpuid() == 0){
     consoleinit();
     printfinit();

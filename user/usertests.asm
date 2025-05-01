@@ -3285,12 +3285,12 @@ outofinodes(char *s)
     1cd2:	02f50d63          	beq	a0,a5,1d0c <stacktest+0x5e>
     exit(xstatus);
     1cd6:	5ab020ef          	jal	4a80 <exit>
+  return (r_sstatus() & SSTATUS_SIE) != 0;
+}
 
-static inline uint64
-r_sp()
-{
+static inline uint64 r_sp() {
   uint64 x;
-  asm volatile("mv %0, sp" : "=r" (x) );
+  asm volatile("mv %0, sp" : "=r"(x));
     1cda:	870a                	mv	a4,sp
     printf("%s: stacktest: read below stack %d\n", s, *sp);
     1cdc:	77fd                	lui	a5,0xfffff

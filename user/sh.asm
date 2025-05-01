@@ -201,7 +201,7 @@ fork1(void)
     if(ecmd->argv[0] == 0)
      132:	00853903          	ld	s2,8(a0)
      136:	06090163          	beqz	s2,198 <runcmd+0xbe>
-    if(strcmp(ecmd->argv[0], "echo") == 0) {
+    if(strcmp(ecmd->argv[0], "!") == 0) {
      13a:	00001597          	auipc	a1,0x1
      13e:	23658593          	addi	a1,a1,566 # 1370 <malloc+0x12e>
      142:	854a                	mv	a0,s2
