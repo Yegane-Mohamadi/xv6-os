@@ -1,5 +1,6 @@
 K=kernel
 U=user
+CPUS := 1
 
 OBJS = \
   $K/entry.o \

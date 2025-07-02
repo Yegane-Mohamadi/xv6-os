@@ -1,2 +1,1 @@
-user/sh.o: user/sh.c kernel/types.h user/user.h kernel/fcntl.h \
- user/user.h
+user/sh.o: user/sh.c kernel/types.h user/user.h kernel/fcntl.h
