@@ -57,8 +57,18 @@ sys_sleep(void)
   argint(0, &n);
   if(n < 0)
     n = 0;
+
   acquire(&tickslock);
   ticks0 = ticks;
+
+  if (myproc()->current_thread) {
+    // اگر این یک ترد است، از sleepthread استفاده کن
+    release(&tickslock);
+    sleepthread(n, ticks0);
+    return 0;
+  }
+
+  // اگر ترد نیست، حالت پیش‌فرض (کل فرآیند sleep می‌شود)
   while(ticks - ticks0 < n){
     if(killed(myproc())){
       release(&tickslock);
@@ -66,9 +76,11 @@ sys_sleep(void)
     }
     sleep(&ticks, &tickslock);
   }
+
   release(&tickslock);
   return 0;
 }
+
 
 uint64
 sys_kill(void)
