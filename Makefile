@@ -1,5 +1,6 @@
 K=kernel
 U=user
+CPUS := 1
 
 OBJS = \
   $K/entry.o \
@@ -139,6 +140,8 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
+	$U/_threadtest\
+
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
